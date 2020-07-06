@@ -29,3 +29,37 @@ oc secrets link builder mysecret                      # Builds are run with the 
                                                       # oc create secret new-sshauth github-my-sshkey --ssh-privatekey=/K/.ssh/id_rsa
 oc secrets link builder github-my-sshkey
 ```
+
+## Image Stream
+```bash
+oc describe is                                            # Describe
+oc describe is -n openshift                               # All Image Streams in a specific Namespace
+oc describe is -n openshift java                          # Specific Image Stream in a specific Namespace
+oc describe is -n openshift redhat-openjdk18-openshift    # Specific Image Stream in a specific Namespace
+oc describe is -n openshift |grep 'Name:'                 # All Image Streams Names in a specific Namespace
+oc describe is -n openshift |grep 'Name:' |grep 'java'    # Specific Image Stream Name in a specific Namespace
+oc describe is -n openshift |grep 'Name:' |grep 'jdk'     # Specific Image Stream Name in a specific Namespace
+```
+			
+## Resources
+```bash
+oc get --show-labels all  # List w/labels	
+```
+
+## Secrets
+```bash
+oc create secret generic <secret-name> --ssh-privatekey=~/.ssh/id_rsa    # Create a secret
+oc delete secret         <secret-name>                                   # Delete	a secret
+oc get secrets                                                           # List	secrets
+```
+			
+## Project
+```bash
+oc new-project NAME [--display-name=DISPLAYNAME] [--description=DESCRIPTION] [flags]
+```
+			
+## Templates
+```bash
+oc get      template -n openshift      # List templates
+oc describe template -n openshift      # Describe templates
+```

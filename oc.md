@@ -2,7 +2,12 @@
 
 ##  Set log-level
 ```bash
---loglevel 5	                                        # https://blog.openshift.com/oc-command-newbies/
+--loglevel 5                                          # https://blog.openshift.com/oc-command-newbies/
+```
+
+## Registry	(minishift/CDK)
+```bash
+minishift openshift registry                          # View host name and port
 ```
 
 ##  BuildConfig

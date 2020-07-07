@@ -1,4 +1,4 @@
-#   Prometheus
+#   Prometheus - PromQL
 
 ##  Reference
 - Kubernetes
@@ -30,3 +30,13 @@ Pod Count of 'Failed'      sum(kube_pod_status_phase{phase="Failed"})
 Pod Usage %                100 - (sum(kube_node_status_capacity_pods) - sum(kube_pod_info)) / sum(kube_node_status_capacity_pods) * 100
 
 ##  Bookmarks
+- [Managing Resources for Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) | Kubernetes
+- [Understanding Kubernetes limits and requests by example](https://sysdig.com/blog/kubernetes-limits-requests/) | Sysdig
+- [A Deep Dive into Kubernetes Metrics](https://blog.freshtracks.io/a-deep-dive-into-kubernetes-metrics-b190cc97f0f6) | FreshTracks.io
+  - [Part 1 — The Node Metrics](https://blog.freshtracks.io/a-deep-dive-into-kubernetes-metrics-66936addedae)
+  - [Part 2 — The USE Method and node_exporter Metrics](https://blog.freshtracks.io/a-deep-dive-into-kubernetes-metrics-part-2-c869581e9f29)
+  - [Part 3 — Container Resource Metrics](https://blog.freshtracks.io/a-deep-dive-into-kubernetes-metrics-part-3-container-resource-metrics-361c5ee46e66)
+  - [Part 4 — The Kubernetes API Server](https://blog.freshtracks.io/a-deep-dive-into-kubernetes-metrics-part-4-the-kubernetes-api-server-72f1e1210770)
+  - [Part 5 — etcd metrics](https://blog.freshtracks.io/a-deep-dive-into-kubernetes-metrics-part-5-etcd-metrics-6502693fa58)
+  - [Part 6 — kube-state-metrics](https://blog.freshtracks.io/a-deep-dive-into-kubernetes-metrics-part-6-kube-state-metrics-14f4e7c8710b)
+- [Kubernetes in Production: The Ultimate Guide to Monitoring Resource Metrics with Prometheus](https://www.replex.io/blog/kubernetes-in-production-the-ultimate-guide-to-monitoring-resource-metrics) | Replex

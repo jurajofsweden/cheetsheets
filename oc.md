@@ -63,3 +63,12 @@ oc new-project NAME [--display-name=DISPLAYNAME] [--description=DESCRIPTION] [fl
 oc get      template -n openshift      # List templates
 oc describe template -n openshift      # Describe templates
 ```
+
+## IP Addresses
+```bash
+oc get nodes -o wide                        # Internal and external IPs of nodes
+oc get pods  -o wide                        # IPs of pods
+oc get pods  -o wide --all-namespaces       # IPs of pods - for all namespaces
+oc get svc                                  # Cluster and External IPs of services (containers)
+oc get svc           --all-namespaces       # Cluster and External IPs of services (containers)  - for all namespaces
+```

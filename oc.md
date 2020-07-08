@@ -72,3 +72,9 @@ oc get pods  -o wide --all-namespaces       # IPs of pods - for all namespaces
 oc get svc                                  # Cluster and External IPs of services (containers)
 oc get svc           --all-namespaces       # Cluster and External IPs of services (containers)  - for all namespaces
 ```
+
+## Pods
+```bash
+# List all pods: Namespace,Pod-name,Pod-status
+oc get pods -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,STATUS:status.phase
+```

@@ -77,4 +77,8 @@ oc get svc           --all-namespaces       # Cluster and External IPs of servic
 ```bash
 # List all pods: Namespace,Pod-name,Pod-status
 oc get pods -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,STATUS:status.phase
+# List all Completed build pods
+oc get pods|grep Completed|grep build|awk '{print NR,$1}'
+# Delete all Completed build pods
+oc get pods|grep Completed|grep build|awk '{system("oc delete pod "$1)}'
 ```

@@ -19,7 +19,8 @@ Disk Usage %           (sum(node_filesystem_size{device!="rootfs"}) - sum(node_f
 <pre>
 CPU Requests by NS              sum(kube_pod_container_resource_requests_cpu_cores) by (namespace)
 CPU Requests by NS (sorted)     sort_desc(sum(kube_pod_container_resource_requests_cpu_cores) by (namespace))
-CPU Requests for a NS (sorted)  sort_desc(kube_pod_container_resource_requests_cpu_cores{namespace="NAMESPACE-NAME"})
+CPU Requests for a NS (sorted)  sort_desc(kube_pod_container_resource_requests_cpu_cores{namespace="NAMESPACE"})
+CPU Requests for a NS* (sorted) sort_desc(kube_pod_container_resource_requests_cpu_cores{namespace=~"NAMESPACE-NAME.*"})
 CPU Limits by NS                sum(kube_pod_container_resource_limits_cpu_cores) by (namespace)
 CPU Usage by NS                 sum(namespace_pod_name_container_name:container_cpu_usage_seconds_total:sum_rate) by (namespace) 
 CPU Usage by NS (sorted)        sort_desc(sum (namespace_pod_name_container_name:container_cpu_usage_seconds_total:sum_rate)  by (namespace) )

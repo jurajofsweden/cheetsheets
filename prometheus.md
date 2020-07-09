@@ -38,6 +38,7 @@ CPU Usage by Node               sort_desc(node:node_cpu_utilisation:avg1m*100)
 Pod Count by Status        sum(kube_pod_status_phase) by (phase)
 Pod Count of 'Pending'     sum(kube_pod_status_phase{phase="Pending"})
 Pod Count of 'Running'     sum(kube_pod_status_phase{phase="Running"})
+Pod Count of 'Succeeded'   sum(kube_pod_status_phase{phase="Succeeded"})
 Pod Count of 'Failed'      sum(kube_pod_status_phase{phase="Failed"})
 Pod Usage %                100 - (sum(kube_node_status_capacity_pods) - sum(kube_pod_info)) / sum(kube_node_status_capacity_pods) * 100
 </pre>

@@ -30,7 +30,7 @@ CPU Usage by NS (sorted)        sort_desc(sum (namespace_pod_name_container_name
 <pre>
 CPU Requests by Node (sorted)   sort_desc(sum(kube_pod_container_resource_requests_cpu_cores) by (node))
 CPU Limits by Node (sorted)     sort_desc(sum(kube_pod_container_resource_limits_cpu_cores) by (node))
-CPU Usage by Node               node:node_cpu_utilisation:avg1m*100
+CPU Usage by Node               sort_desc(node:node_cpu_utilisation:avg1m*100)
 </pre>
 
 ##  Pods

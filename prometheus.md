@@ -28,12 +28,16 @@ CPU Usage by NS (sorted)        sort_desc(sum (namespace_pod_name_container_name
 
 ### By Node
 <pre>
-CPU Requests by Node (sorted)   sort_desc(sum(kube_pod_container_resource_requests_cpu_cores) by (node))
-CPU Limits by Node (sorted)     sort_desc(sum(kube_pod_container_resource_limits_cpu_cores) by (node))
-CPU Usage by Node               sort_desc(node:node_cpu_utilisation:avg1m*100)
+CPU Requests by Node (sorted)     sort_desc(sum(kube_pod_container_resource_requests_cpu_cores) by (node))
+CPU Limits by Node (sorted)       sort_desc(sum(kube_pod_container_resource_limits_cpu_cores) by (node))
+CPU Usage by Node                 sort_desc(node:node_cpu_utilisation:avg1m*100)
+Memory Requests by Node (sorted)  sort_desc(sum(kube_pod_container_resource_requests_memory_bytes) by (node))
+Memory Limits by Node (sorted)    sort_desc(sum(kube_pod_container_resource_limits_memory_bytes) by (node))
 </pre>
 
 ##  Pods
+
+### Cluster
 <pre>
 Pod Count by Status        sum(kube_pod_status_phase) by (phase)
 Pod Count of 'Pending'     sum(kube_pod_status_phase{phase="Pending"})
@@ -41,6 +45,11 @@ Pod Count of 'Running'     sum(kube_pod_status_phase{phase="Running"})
 Pod Count of 'Succeeded'   sum(kube_pod_status_phase{phase="Succeeded"})
 Pod Count of 'Failed'      sum(kube_pod_status_phase{phase="Failed"})
 Pod Usage %                100 - (sum(kube_node_status_capacity_pods) - sum(kube_pod_info)) / sum(kube_node_status_capacity_pods) * 100
+</pre>
+
+### By Node
+<pre>
+Pod Count by Node (sorted)      sort_desc(sum(kube_pod_info) by (node))
 </pre>
 
 ##  Bookmarks

@@ -77,8 +77,26 @@ oc get svc           --all-namespaces       # Cluster and External IPs of servic
 ```bash
 # List all pods: Namespace,Pod-name,Pod-status
 oc get pods -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,STATUS:status.phase
+# List all pods: Node,Created,Namespace,Pod (sorted)
+oc get pods --no-headers -o custom-columns=NODE:spec.nodeName,CREATED:metadata.creationTimestamp,NAMESPACE:metadata.namespace,POD:metadata.name|sort
+# List all pods: Namespace,Pod,Created,Node (sorted)
+oc get pods --no-headers -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,NODE:spec.nodeName|sort
+# List all pods: Namespace,Pod,Created,Status,Node (sorted)
+oc get pods --no-headers -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,STATUS:status.phase,NODE:spec.nodeName|sort
+
 # List all Completed build pods
 oc get pods|grep Completed|grep build|awk '{print NR,$1}'
+
 # Delete all Completed build pods
 oc get pods|grep Completed|grep build|awk '{system("oc delete pod "$1)}'
+
+# List all pods: Older than 1 day (current namespace)
+oc get pods --no-headers -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,STATUS:status.phase,NODE:spec.nodeName|sort|awk '$3 <= "'$(date -d 'yesterday' -Ins --utc | sed 's/+0000/Z/')'" { print $0 }'
+
+# List all pods: Older than 1 day (all namespaces)
+oc get pods --no-headers --all-namespaces -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,STATUS:status.phase,NODE:spec.nodeName|sort|awk '$3 <= "'$(date -d 'yesterday' -Ins --utc | sed 's/+0000/Z/')'" { print $0 }'
+
+# List all pods: Older than 1 day AND Status:Complete(Succeeded) (all namespaces)
+oc get pods --no-headers --all-namespaces -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,STATUS:status.phase,NODE:spec.nodeName|sort|awk '$3 <= "'$(date -d 'yesterday' -Ins --utc | sed 's/+0000/Z/')'" { print $0 }'|grep Succeeded
+
 ```

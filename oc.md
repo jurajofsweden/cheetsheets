@@ -84,6 +84,10 @@ oc get pods --no-headers -o custom-columns=NAMESPACE:metadata.namespace,POD:meta
 # List all pods: Namespace,Pod,Created,Status,Node (sorted)
 oc get pods --no-headers -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,STATUS:status.phase,NODE:spec.nodeName|sort
 
+# List all pods (all namespaces): Namespace,Pod,Created,Status,Node (sorted) > tee to a file
+oc get pods --no-headers --all-namespaces -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,STATUS:status.phase,NODE:spec.nodeName|sort|tee oc-get-pods--all-namespaces-$(date +%Y-%m-%dT%H-%M-%S).txt
+
+
 # List all Completed build pods
 oc get pods|grep Completed|grep build|awk '{print NR,$1}'
 
@@ -99,4 +103,6 @@ oc get pods --no-headers --all-namespaces -o custom-columns=NAMESPACE:metadata.n
 # List all pods: Older than 1 day AND Status:Complete(Succeeded) (all namespaces)
 oc get pods --no-headers --all-namespaces -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,STATUS:status.phase,NODE:spec.nodeName|sort|awk '$3 <= "'$(date -d 'yesterday' -Ins --utc | sed 's/+0000/Z/')'" { print $0 }'|grep Succeeded
 
+# List all pods: All namespaces AND Older than 1 day: Namespace,Pod,Created,Status,Node (sorted) > tee to a file
+oc get pods --no-headers --all-namespaces -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,STATUS:status.phase,NODE:spec.nodeName|sort|awk '$3 <= "'$(date -d 'yesterday' -Ins --utc | sed 's/+0000/Z/')'" { print $0 }'|tee oc-get-pods--all-namespaces--1-day-old--$(date +%Y-%m-%dT%H-%M-%S).txt
 ```

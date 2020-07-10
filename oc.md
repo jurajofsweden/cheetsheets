@@ -85,24 +85,18 @@ oc get pods --no-headers -o custom-columns=NAMESPACE:metadata.namespace,POD:meta
 oc get pods --no-headers -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,STATUS:status.phase,NODE:spec.nodeName|sort
 
 # List all pods (all namespaces): Namespace,Pod,Created,Status,Node (sorted) > tee to a file
-oc get pods --no-headers --all-namespaces -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,STATUS:status.phase,NODE:spec.nodeName|sort|tee oc-get-pods--all-namespaces-$(date +%Y-%m-%dT%H-%M-%S).txt
-
+oc get pods --no-headers --all-namespaces -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,STATUS:status.phase,NODE:spec.nodeName|sort|tee oc-get-pods--all-namespaces--$(date +%Y-%m-%d--%H.%M.%S).txt
 
 # List all Completed build pods
 oc get pods|grep Completed|grep build|awk '{print NR,$1}'
 
-# Delete all Completed build pods
-oc get pods|grep Completed|grep build|awk '{system("oc delete pod "$1)}'
+# List all Completed build and deploy pods: 1 and 3 days old, and 1 week old
+./OpenShift/oc-cluster-pods-stat.bash
 
-# List all pods: Older than 1 day (current namespace)
-oc get pods --no-headers -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,STATUS:status.phase,NODE:spec.nodeName|sort|awk '$3 <= "'$(date -d 'yesterday' -Ins --utc | sed 's/+0000/Z/')'" { print $0 }'
-
-# List all pods: Older than 1 day (all namespaces)
-oc get pods --no-headers --all-namespaces -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,STATUS:status.phase,NODE:spec.nodeName|sort|awk '$3 <= "'$(date -d 'yesterday' -Ins --utc | sed 's/+0000/Z/')'" { print $0 }'
-
-# List all pods: Older than 1 day AND Status:Complete(Succeeded) (all namespaces)
-oc get pods --no-headers --all-namespaces -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,STATUS:status.phase,NODE:spec.nodeName|sort|awk '$3 <= "'$(date -d 'yesterday' -Ins --utc | sed 's/+0000/Z/')'" { print $0 }'|grep Succeeded
-
-# List all pods: All namespaces AND Older than 1 day: Namespace,Pod,Created,Status,Node (sorted) > tee to a file
-oc get pods --no-headers --all-namespaces -o custom-columns=NAMESPACE:metadata.namespace,POD:metadata.name,CREATED:metadata.creationTimestamp,STATUS:status.phase,NODE:spec.nodeName|sort|awk '$3 <= "'$(date -d 'yesterday' -Ins --utc | sed 's/+0000/Z/')'" { print $0 }'|tee oc-get-pods--all-namespaces--1-day-old--$(date +%Y-%m-%dT%H-%M-%S).txt
+# Delete all Completed build and deploy pods: 3 days old
+./OpenShift/oc-cluster-pods-stat.bash
+grep 'Succeeded' oc-cluster-all-pods--TIMESTAMP-builds.txt  | awk '$3 <= "'$(date -d now-3days -Ins --utc | sed 's/+0000/Z/')'" { system("oc delete pod " $2 " -n " $1) }'
+grep 'Failed'    oc-cluster-all-pods--TIMESTAMP-builds.txt  | awk '$3 <= "'$(date -d now-3days -Ins --utc | sed 's/+0000/Z/')'" { system("oc delete pod " $2 " -n " $1) }'
+grep 'Succeeded' oc-cluster-all-pods--TIMESTAMP-deploy.txt  | awk '$3 <= "'$(date -d now-3days -Ins --utc | sed 's/+0000/Z/')'" { system("oc delete pod " $2 " -n " $1) }'
+grep 'Failed'    oc-cluster-all-pods--TIMESTAMP-deploy.txt  | awk '$3 <= "'$(date -d now-3days -Ins --utc | sed 's/+0000/Z/')'" { system("oc delete pod " $2 " -n " $1) }'
 ```

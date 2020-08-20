@@ -8,6 +8,8 @@
 ##  Resources: Requests - Limits - Usage
 ### Cluster
 <pre>
+CPUs per Node          node:node_num_cpu:sum
+                       node:node_num_cpu:sum{node=~"NODE1|NODE2|..."}
 CPU Requests %         sum(kube_pod_container_resource_requests_cpu_cores) / sum(node:node_num_cpu:sum)
 CPU Usage %            100 - (sum(rate(node_cpu{job="node-exporter",mode="idle"}[2m])) / count(node_cpu{job="node-exporter", mode="idle"})) * 100
 Memory Usage %         ((sum(node_memory_MemTotal) - sum(node_memory_MemFree) - sum(node_memory_Buffers) - sum(node_memory_Cached)) / sum(node_memory_MemTotal)) * 100

@@ -10,7 +10,9 @@
 <pre>
 CPUs per Node          node:node_num_cpu:sum
                        node:node_num_cpu:sum{node=~"NODE1|NODE2|..."}
+                       
 CPU Requests %         sum(kube_pod_container_resource_requests_cpu_cores) / sum(node:node_num_cpu:sum)
+
 CPU Requests           sum(sum(kube_pod_container_resource_requests_cpu_cores) by (pod,namespace,node)
   (Runnint|Pending)    * on (pod,namespace) group_left()
                        (sum(kube_pod_status_phase{phase=~"Running|Pending"}) by (pod,namespace) == 1))
@@ -22,12 +24,13 @@ Disk Usage %           (sum(node_filesystem_size{device!="rootfs"}) - sum(node_f
 
 ### By Namespace
 <pre>
-CPU Requests           sort_desc(
-  (Runnint|Pending)      sum(sum(kube_pod_container_resource_requests_cpu_cores) by (pod,namespace,node)
-  by NS                  * on (pod,namespace) group_left()
-  (sorted)               (sum(kube_pod_status_phase{phase=~"Running|Pending"}) by (pod,namespace) == 1))
-                         by (namespace)
-                       )
+CPU Requests                    sort_desc(
+  (Runnint|Pending)               sum(sum(kube_pod_container_resource_requests_cpu_cores) by (pod,namespace,node)
+  by NS                             * on (pod,namespace) group_left()
+  (sorted)                          (sum(kube_pod_status_phase{phase=~"Running|Pending"}) by (pod,namespace) == 1))
+                                    by (namespace)
+                                )
+                                
 CPU Requests by NS              sum(kube_pod_container_resource_requests_cpu_cores) by (namespace)
 CPU Requests by NS (sorted)     sort_desc(sum(kube_pod_container_resource_requests_cpu_cores) by (namespace))
 CPU Requests for a NS (sorted)  sort_desc(kube_pod_container_resource_requests_cpu_cores{namespace="NAMESPACE"})
@@ -39,10 +42,11 @@ CPU Usage by NS (sorted)        sort_desc(sum (namespace_pod_name_container_name
 
 ### By Node
 <pre>
-CPU Requests           sum(sum(kube_pod_container_resource_requests_cpu_cores{node=~"NODE1|NODE2|..."}) by (pod,namespace,node)
-  (Runnint|Pending)      * on (pod,namespace) group_left()
-  by Node                (sum(kube_pod_status_phase{phase=~"Running|Pending"}) by (pod,namespace) == 1))
-                         by (node)
+CPU Requests                      sum(sum(kube_pod_container_resource_requests_cpu_cores{node=~"NODE1|NODE2|..."}) by (pod,namespace,node)
+  (Runnint|Pending)                 * on (pod,namespace) group_left()
+  by Node                           (sum(kube_pod_status_phase{phase=~"Running|Pending"}) by (pod,namespace) == 1))
+                                    by (node)
+                         
 CPU Requests by Node (sorted)     sort_desc(sum(kube_pod_container_resource_requests_cpu_cores) by (node))
 CPU Limits by Node (sorted)       sort_desc(sum(kube_pod_container_resource_limits_cpu_cores) by (node))
 CPU Usage by Node                 sort_desc(node:node_cpu_utilisation:avg1m*100)

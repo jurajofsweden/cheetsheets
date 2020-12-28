@@ -1,13 +1,26 @@
 # Aliases
 
 ```bash
+# List all aliases
 git config --list | grep alias
 
-alias.l=log --pretty=format:'%h %an %ai %s'
-alias.s=status
-alias.a=add .
-alias.c=commit -m
+# Aliases
+git config --global alias.aliases '!git config --list | grep alias\. | sort'
 
+# Status
+git config --global alias.s       '!git status'
+
+# Add
+git config --global alias.a       '!git add .'
+
+# Commit
+git config --global alias.cm      '!git commit -m'
+git config --global alias.cmwip   '!git commit -m "wip"'
+
+# Log
+git config --global alias.lg      '!git log --graph --all --pretty=format:"%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset"'
+
+# Other alternatives
 alias.s=status
 alias.a=!git add . && git status
 alias.au=!git add -u . && git status
